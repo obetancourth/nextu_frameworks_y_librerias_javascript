@@ -2,6 +2,13 @@ $(document).ready(
   function(){
     animacionTitulo();
     init();
+    $(".btn-reinicio").on('click', function(e){
+        if ($(this).text() === "Reiniciar"){
+          window.location.reload(true);
+        }else{
+          triggerPrimerMovimiento();
+        }
+    });
   }// end ready
 );
 
@@ -259,15 +266,7 @@ function swapDulces() {
     movimientos ++;
     $("#movimientos-text").text(movimientos);
     if(!primerMovimiento) {
-      primerMovimiento = true;
-      $(".btn-reinicio").text("Reiniciar").on('click', function(){
-         window.location.reload(true);
-      });
-      $("#timer").timer({
-        countdown:true,
-        duration: '2m',
-        callback: showFinalScore
-      })
+      triggerPrimerMovimiento();
     }
     verificarTablero(true);
 }
@@ -279,4 +278,15 @@ function showFinalScore(){
     { height: 0, width: 0, opacity: 0 },
     1000,
     function () { $(this).hide() });
+}
+
+
+function triggerPrimerMovimiento(){
+  primerMovimiento = true;
+  $(".btn-reinicio").text("Reiniciar");
+  $("#timer").timer({
+    countdown: true,
+    duration: '2m',
+    callback: showFinalScore
+  })
 }
