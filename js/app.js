@@ -1,9 +1,7 @@
 $(document).ready(
   function(){
     animacionTitulo();
-    generarTablero();
-    mostrarTablero();
-    verificarTablero(false);
+    init();
   }// end ready
 );
 
@@ -262,9 +260,23 @@ function swapDulces() {
     $("#movimientos-text").text(movimientos);
     if(!primerMovimiento) {
       primerMovimiento = true;
-      $(".btn-reinicio").text("Reiniciar");
-      //startTimer();
+      $(".btn-reinicio").text("Reiniciar").on('click', function(){
+         window.location.reload(true);
+      });
+      $("#timer").timer({
+        countdown:true,
+        duration: '2m',
+        callback: showFinalScore
+      })
     }
-
     verificarTablero(true);
+}
+
+function showFinalScore(){
+  $("#timer").timer("remove");
+  $(".panel-score").animate({ width: "100%" }, 1000);
+  $(".panel-tablero").animate(
+    { height: 0, width: 0, opacity: 0 },
+    1000,
+    function () { $(this).hide() });
 }
